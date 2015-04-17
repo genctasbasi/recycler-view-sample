@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.escmobile.recyclerviewsample.R;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by genctasbasi on 16/04/15.
@@ -16,20 +18,20 @@ public class ViewAdapter extends RecyclerView.Adapter<ImageViewHolder> {
 
     private static final int TARGET_SIZE = 500;
     private Context context;
-    private String[] imageUrls;
+    private ArrayList<String> imageUrls;
 
-    public ViewAdapter(Context context, String[] imageUrls) {
+    public ViewAdapter(Context context, ArrayList<String> imageUrls){
         this.context = context;
         this.imageUrls = imageUrls;
     }
 
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        // create a new view
-        ImageView imageView = (ImageView) LayoutInflater.from(context)
-                .inflate(R.layout.recycler_view_row, viewGroup, false);
 
-        ImageViewHolder vh = new ImageViewHolder(imageView);
+        LinearLayout rowView = (LinearLayout)LayoutInflater.from(context)
+                .inflate(R.layout.recycler_view_row , viewGroup, false);
+
+        ImageViewHolder vh = new ImageViewHolder(rowView);
         return vh;
     }
 
@@ -41,13 +43,15 @@ public class ViewAdapter extends RecyclerView.Adapter<ImageViewHolder> {
         // it's a 3rd party lib that makes image downloading & caching so easy.
         Picasso
                 .with(context)
-                .load(imageUrls[i])
-                .resize(TARGET_SIZE, TARGET_SIZE)
+                .load(imageUrls.get(i))
                 .into(imageViewHolder.getImageView());
+
+        String description = context.getString(R.string.image_description).concat(String.valueOf(i + 1));
+        imageViewHolder.getTextView().setText(description);
     }
 
     @Override
     public int getItemCount() {
-        return imageUrls == null ? 0 : imageUrls.length;
+        return imageUrls == null ? 0 : imageUrls.size();
     }
 }

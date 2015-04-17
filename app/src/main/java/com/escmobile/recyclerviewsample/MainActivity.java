@@ -1,20 +1,26 @@
 package com.escmobile.recyclerviewsample;
 
-import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import java.util.ArrayList;
 
 import adapter.ViewAdapter;
 
 public class MainActivity extends ActionBarActivity {
 
-    private static final int SPAN_COUNT = 4;
+    private static final int SPAN_COUNT = 3;
+    private static final int NUMBER_OF_IMAGES = 1500;
+
+    final String[] Colours = {
+            "FF0000", "FFFF00", "FFC125",
+            "71C671", "00CED1", "FF1493",
+            "9B30FF", "000000", "FFA07A"};
+
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
 
@@ -31,54 +37,33 @@ public class MainActivity extends ActionBarActivity {
         recyclerView.setHasFixedSize(true);
 
         gridLayoutManager = new GridLayoutManager(this, SPAN_COUNT);
-        
+
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        final Context thisContext = this;
-        ((Button)findViewById(R.id.btn_load_images)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.btn_load_images)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewAdapter adapter = new ViewAdapter(thisContext, getImageUrls());
+                ViewAdapter adapter = new ViewAdapter(MainActivity.this, getImageUrlList());
                 recyclerView.setAdapter(adapter);
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    /**
+     * a very loooong list of images
+     *
+     * @return
+     */
+    public ArrayList<String> getImageUrlList() {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        ArrayList<String> urls = new ArrayList<>();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        // we are adding many many many images here (1500 images!)
+        for (int i = 0; i < NUMBER_OF_IMAGES; i++) {
+            int n = i % Colours.length;
+            urls.add("http://placehold.it/300x300/" + Colours[n] + "/ffffff&text=" + String.valueOf(n + 1));
         }
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    public String[] getImageUrls() {
-        String[] imageUrls = {
-                "http://placehold.it/300x300/FF0000/ffffff&text=1",
-                "http://placehold.it/300x300/FFFF00/ffffff&text=2",
-                "http://placehold.it/300x300/FFC125/ffffff&text=3",
-                "http://placehold.it/300x300/71C671/ffffff&text=4",
-                "http://placehold.it/300x300/00CED1/ffffff&text=5",
-                "http://placehold.it/300x300/FF1493/ffffff&text=6",
-                "http://placehold.it/300x300/9B30FF/ffffff&text=7",
-                "http://placehold.it/300x300/000000/ffffff&text=8",
-                "http://placehold.it/300x300/FFA07A/ffffff&text=9"
-        };
-
-        return imageUrls;
+        return urls;
     }
 }
