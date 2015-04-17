@@ -14,7 +14,10 @@ import adapter.ViewAdapter;
 public class MainActivity extends ActionBarActivity {
 
     private static final int SPAN_COUNT = 3;
-    private static final int NUMBER_OF_IMAGES = 1500;
+    private static final int IMAGE_COUNT = 1500;
+
+    // 9 different images. Change to a value 1 to IMAGE_COUNT
+    private static final int NUMBER_OF_DIFFERENT_IMAGES = 9;
 
     final String[] Colours = {
             "FF0000", "FFFF00", "FFC125",
@@ -59,9 +62,15 @@ public class MainActivity extends ActionBarActivity {
         ArrayList<String> urls = new ArrayList<>();
 
         // we are adding many many many images here (1500 images!)
-        for (int i = 0; i < NUMBER_OF_IMAGES; i++) {
+        for (int i = 0; i < IMAGE_COUNT; i++) {
             int n = i % Colours.length;
-            urls.add("http://placehold.it/300x300/" + Colours[n] + "/ffffff&text=" + String.valueOf(n + 1));
+
+            // image url
+            urls.add("http://placehold.it/300x300/"
+                    + Colours[n]
+                    + "/ffffff&text="
+                    + String.valueOf((i + 1) % NUMBER_OF_DIFFERENT_IMAGES));
+
         }
 
         return urls;
