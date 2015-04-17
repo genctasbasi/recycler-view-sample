@@ -17,7 +17,7 @@ public class MainActivity extends ActionBarActivity {
     private static final int IMAGE_COUNT = 1500;
 
     // 9 different images. Change to a value 1 to IMAGE_COUNT
-    private static final int NUMBER_OF_DIFFERENT_IMAGES = 9;
+    private static final int NUMBER_OF_DIFFERENT_IMAGES = 10;
 
     final String[] Colours = {
             "FF0000", "FFFF00", "FFC125",
